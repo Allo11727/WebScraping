@@ -1,9 +1,6 @@
 
 from bs4 import BeautifulSoup
 import requests
-import RPi.GPIO as GPIO
-import threading 
-#import drivers 
 from time import sleep
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -40,33 +37,48 @@ def Interrupcion2():
   
   return j.text
 
-@app.route('/temp/')
+
+@app.route('/euro/')
 def Interrupcion3():
-  url3 = "https://www.timeanddate.com/weather/mexico/mexico-city"
+  url3 = "https://mx.investing.com/currencies/eur-mxn"
   r3  = requests.get(url3)
   data3 = r3.text
   soup3 = BeautifulSoup(data3, 'lxml')
-  temp3 = soup3.find_all('div', class_="h2")
-  preciodol    = list()
-  for j in temp3:
-     preciodol.append(j.text)
+  temp3 = soup3.find_all('span', class_='text-2xl')
+  precio3   = list()
+       
+  for l in temp3:
+     precio3.append(l.text)
   
-  return j.text
+  return l.text
 
-@app.route('/sensa/')
+@app.route('/yen/')
 def Interrupcion4():
-  url4 = "https://www.timeanddate.com/weather/mexico/mexico-city"
+  url4 = "https://mx.investing.com/currencies/jpy-mxn"
   r4  = requests.get(url4)
   data4 = r4.text
   soup4 = BeautifulSoup(data4, 'lxml')
-  #temp3 = soup3.find_all('div', class_="h2")
-  sTerm4 = soup4.find_all('div', class_="clear")
-  preciodol    = list()
+  temp4 = soup4.find_all('span', class_='text-2xl')
+  precio4    = list()
        
-  for j in sTerm4:
-     preciodol.append(j.text)
+  for i4 in temp4:
+     precio4.append(i4.text)
+
+  return i4.text
+
+@app.route('/parg/')
+def Interrupcion5():
+  url5 = "https://mx.investing.com/currencies/ars-mxn"
+  r5  = requests.get(url5)
+  data5 = r5.text
+  soup5 = BeautifulSoup(data5, 'lxml')
+  temp = soup5.find_all('span', class_='text-2xl')
+  precio5    = list()
+       
+  for i5 in temp:
+     precio5.append(i5.text)
   
-  return j.text
+  return i5.text
 
 if __name__ == '__main__':
   app.run(debug=True)
