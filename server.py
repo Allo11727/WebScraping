@@ -1,9 +1,14 @@
 
+
 from bs4 import BeautifulSoup
 import requests
+import RPi.GPIO as GPIO
+import threading 
+import drivers 
 from time import sleep
 from flask import Flask, render_template
 app = Flask(__name__)
+display = drivers.Lcd()
 
 @app.route('/')
 def index():
@@ -20,7 +25,9 @@ def Interrupcion():
        
   for i in temp:
      precio.append(i.text)
-  
+  display.lcd_clear()
+  display.lcd_display_string("Bitcoin a pesos:", 1)
+  display.lcd_display_string(i.text,2)
   return i.text
   
 @app.route('/dolar/')
@@ -34,7 +41,9 @@ def Interrupcion2():
        
   for j in tempdol:
      preciodol.append(j.text)
-  
+  display.lcd_clear()
+  display.lcd_display_string("dolar a pesos:", 1)
+  display.lcd_display_string(j.text,2)
   return j.text
 
 
@@ -49,7 +58,9 @@ def Interrupcion3():
        
   for l in temp3:
      precio3.append(l.text)
-  
+  display.lcd_clear()
+  display.lcd_display_string("euro a pesos:", 1)
+  display.lcd_display_string(l.text,2)
   return l.text
 
 @app.route('/yen/')
@@ -63,7 +74,9 @@ def Interrupcion4():
        
   for i4 in temp4:
      precio4.append(i4.text)
-
+  display.lcd_clear()
+  display.lcd_display_string("yenes a pesos:", 1)
+  display.lcd_display_string(i4.text,2)
   return i4.text
 
 @app.route('/parg/')
@@ -77,9 +90,10 @@ def Interrupcion5():
        
   for i5 in temp:
      precio5.append(i5.text)
-  
+  display.lcd_clear()
+  display.lcd_display_string("ARS a MXN:", 1)
+  display.lcd_display_string(i5.text,2)
   return i5.text
 
 if __name__ == '__main__':
   app.run(debug=True)
-
